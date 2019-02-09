@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Weather Update</title>
+    </head>
+ 
+    <body>
+        <form id="myForm">
+            City: <input type="text" name="City" value="San Francisco"><br><br>
+            Weather: <select name="Condition">
+                        <option value="Clear">Clear</option>
+                        <option value="Hail">Hail</option>
+                        <option value="Heavy Cloud">Heavy Cloud</option>
+                        <option value="Light Cloud">Light Cloud</option>
+                        <option value="Light Rain">Light Rain</option>
+                        <option value="Showers">Showers</option>
+                        <option value="Sleet">Sleet</option>
+                        <option value="Snow">Snow</option>
+                        <option value="Thunder">Thunder</option>
+                    </select><br><br>
+            <!-- Weather: <input type="text" name="lname" value="Clear"><br> -->
+
+            Degree: <input type="text" name="Degree" value="19"><br><br>
+        </form>
+        <button onclick="SubmitNew()">Submit</button> <button onclick="UpdateOld()">Update</button>
+        
+
+
+
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost:8080');
+            function SubmitNew() {
+                var x = document.getElementById("myForm").elements[0].value;
+                var y = document.getElementById("myForm").elements[1].value;
+                var z = document.getElementById("myForm").elements[2].value;
+                sendObject = {Location: x, Weather: y, Degree: z};
+                socket.emit('createNewData', sendObject);
+            }
+            function UpdateOld() {
+                var x = document.getElementById("myForm").elements[0].value;
+                var y = document.getElementById("myForm").elements[1].value;
+                var z = document.getElementById("myForm").elements[2].value;
+                sendObject = {Location: x, Weather: y, Degree: z};
+                socket.emit('updateOldData', sendObject);
+            }
+        </script>
+    </body>
+</html>
